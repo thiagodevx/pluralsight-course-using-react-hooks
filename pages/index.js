@@ -10,10 +10,11 @@ export default _ => {
   }
   return (
     <>
-      <input onChange={update} placeholder='Enter Some Text' />
-      {history.map(record => (
-        <div>{record}</div>
-      ))}
+      <h1>To access any component, you can use the name of it on the route</h1>
+      <p>
+        For example, localhost:3000/UseState, or
+        localhost:3000/ImageChangeOnMouseOver
+      </p>
     </>
   )
 }
