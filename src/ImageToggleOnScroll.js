@@ -3,7 +3,10 @@ import React, { useRef, useState, useEffect } from 'react'
 export default props => {
   const imageRef = useRef(null)
   const [inView, setInView] = useState(false)
-  const scrollHandler = () => {}
+
+  const scrollHandler = () => {
+    setInView(isInView)
+  }
 
   const isInView = () => {
     if (imageRef.current) {
@@ -16,5 +19,13 @@ export default props => {
     return () => window.removeEventListener('scroll', scrollHandler)
   }, [])
 
-  return <img src={props.primary} ref={imageRef} />
+  return (
+    <img
+      style={{
+        display: 'block'
+      }}
+      src={inView ? props.secondary : props.primary}
+      ref={imageRef}
+    />
+  )
 }
