@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useReducer } from 'react'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../static/site.css'
@@ -12,9 +12,17 @@ const Speakers = ({}) => {
   const context = useContext(ConfigContext)
   const [speakingSaturday, setSpeakingSaturday] = useState(true)
   const [speakingSunday, setSpeakingSunday] = useState(true)
-
-  const [speakerList, setSpeakerList] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+
+  const speakersReducer = (state, action) => {
+    switch (action.type) {
+      case 'setSpeakerList':
+        return action.data
+      default:
+        return state
+    }
+  }
+  const [speakerList, dispatch] = useReducer(speakersReducer, [])
 
   useEffect(() => {
     setIsLoading(true)
@@ -27,7 +35,10 @@ const Speakers = ({}) => {
       const speakerListServerFilter = SpeakerData.filter(({ sat, sun }) => {
         return (speakingSaturday && sat) || (speakingSunday && sun)
       })
-      setSpeakerList(speakerListServerFilter)
+      dispatch({
+        type: 'setSpeakerList',
+        data: speakerListServerFilter
+      })
     })
     return () => {
       console.log('cleanup')
