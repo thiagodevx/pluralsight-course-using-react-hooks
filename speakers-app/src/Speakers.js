@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useReducer } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useReducer,
+  useCallback
+} from 'react'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../static/site.css'
@@ -9,7 +15,7 @@ import SpeakerDetail from './SpeakerDetail'
 import { ConfigContext } from './App'
 import SpeakersReducer from './SpeakersReducer'
 
-const Speakers = ({}) => {
+const Speakers = _ => {
   const context = useContext(ConfigContext)
   const [speakingSaturday, setSpeakingSaturday] = useState(true)
   const [speakingSunday, setSpeakingSunday] = useState(true)
@@ -61,14 +67,14 @@ const Speakers = ({}) => {
     setSpeakingSunday(!speakingSunday)
   }
 
-  const heartFavoriteHandler = (e, favoriteValue) => {
+  const heartFavoriteHandler = useCallback((e, favoriteValue) => {
     e.preventDefault()
     const sessionId = parseInt(e.target.attributes['data-sessionid'].value)
     dispatch({
       type: favoriteValue === true ? 'favorite' : 'unfavorite',
       sessionId
     })
-  }
+  }, [])
 
   if (isLoading) return <div>Loading...</div>
 
